@@ -34,6 +34,34 @@ class MantisConnector
 		return call_user_func_array(array($this->client, $name), $arguments);
 	}
 	
+	public function getUserByEmail($projectId, $email)
+	{
+		return $this->getUserBy('email', $projectId, $email);
+	}
+	
+	public function getUserBy($fieldName, $projectId, $value)
+	{
+		if (!(in_array($fieldName, array('id', 'name', 'real_name', 'email'))))
+		{
+			throw new Exception('Invalid field');
+		}
+		
+		$user = null;
+		
+		$users = $this->mc_project_get_users($projectId, -1);
+		
+		foreach ($users as $data)
+		{
+			if ($data->$fieldName === $value)
+			{
+				$user = $data;
+				break;
+			}
+		}
+		
+		return $user;
+	}
+	
 	public function setUsername($username)
 	{
 		$this->username = $username;
