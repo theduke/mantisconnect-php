@@ -23,7 +23,7 @@ class MantisConnector
 		return $this;
 	}
 	
-	public function __call($name, $arguments)
+	public function __call($name, $arguments=array())
 	{
 		if (!method_exists($this->client, $name))
 		{
